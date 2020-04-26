@@ -1,0 +1,41 @@
+.credit {
+  font-size: 2rem;
+  margin: 2rem;
+  background: forestgreen;
+  color: white;
+  padding: 1.4em;
+  text-align: center;
+}
+
+.container {
+  padding: 1.1rem;
+}
+
+.coins__container {
+  display: flex;
+  margin: 2rem 0;
+}
+
+.coins {
+  border: 1px solid rebeccapurple;
+  padding: 2rem;
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+.coins__list {
+  margin: 2rem;
+}
+
+.button {
+  background: rebeccapurple;
+  color: white;
+  padding: 1.5rem;
+  font-size: 1.5rem;
+  width: 100%;
+  border: 0.2rem solid navy;
+}
+
+.container--feature {
+  border: 20px solid pink;
+}

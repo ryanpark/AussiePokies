@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import { getSymbols } from "./Symbols/symbols";
 import calculateSymbols from "./Symbols/calculateSymbols";
 import { css, jsx } from "@emotion/core";
+import CountUp from "react-countup";
 import "./reset.css";
 import "./App.css";
 
@@ -9,6 +10,10 @@ const App = () => {
   const [rows, setRows] = useState([]);
   const [credit, setCredit] = useState(1000);
   const [feature, setFeature] = useState(false);
+  const [startFeature, setStartFeature] = useState(false);
+  const [featureNumber, setFeatureNumber] = useState(0);
+  const [winCredit, setWinCredit] = useState(0);
+  const [winSymbols, setWinSymbols] = useState([]);
 
   useEffect(() => {
     const lists = rows.reduce((prev, next) => prev.concat(next), []);
@@ -20,21 +25,29 @@ const App = () => {
       {}
     );
 
-    const isFeature = lists.filter(item => item === "Coin").length > 6;
-    const updatedCredit = calculateSymbols(results);
-    console.log(updatedCredit);
-    //setCredit(credit + updatedCredit);
-    if (isFeature) {
+    const updateSlots = calculateSymbols(results, startFeature);
+    setCredit(updateSlots.totalCredits + credit);
+    setWinCredit(updateSlots.totalCredits);
+    if (startFeature) {
+      setFeatureNumber(featureNumber + 1);
+    }
+    if (updateSlots.isFeature && !startFeature) {
       setFeature(true);
     }
-
+    if (featureNumber === 10 && startFeature) {
+      setStartFeature(false);
+      setFeatureNumber(0);
+    }
+    setWinSymbols(updateSlots.winSymbols);
     return () => {
       setFeature(false);
     };
   }, [rows]);
 
   useEffect(() => {
-    setCredit(credit + 100);
+    if (feature) {
+      setStartFeature(true);
+    }
   }, [feature]);
 
   function getRows() {
@@ -47,24 +60,40 @@ const App = () => {
       });
   }
 
-  const renderRows = () => {
+  const RenderRows = () => {
     return rows.map(row => {
       return (
         <ul className="coins">
           {row.map(list => {
-            return <li className="coins__list">{list}</li>;
+            const matched = winSymbols.includes(list);
+
+            return (
+              <li className={!matched ? "coins__list" : "coins__list-matched"}>
+                {list}
+              </li>
+            );
           })}
         </ul>
       );
     });
   };
 
+  const DisplayResults = () => {
+    const wonSymbols = winSymbols.toString();
+    return `dsiplay results ${winCredit} ${wonSymbols}`;
+  };
   return (
     <Fragment>
-      <div className={!feature ? "container" : "container--feature"}>
+      <h1>{startFeature ? "feature time baby" : ""}</h1>
+      <div className={!startFeature ? "container" : "container--feature"}>
+        <DisplayResults />
         <h1 className="credit">{credit}</h1>
+
+        <CountUp start={1000} end={credit} duration={5} />
         <div className="App">
-          <div className="coins__container">{renderRows()}</div>
+          <div className="coins__container">
+            <RenderRows />
+          </div>
         </div>
         <button
           onClick={e => {

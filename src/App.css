@@ -39,3 +39,7 @@
 .container--feature {
   border: 20px solid pink;
 }
+
+.coins__list-matched {
+  background: pink;
+}

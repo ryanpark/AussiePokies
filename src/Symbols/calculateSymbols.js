@@ -1,6 +1,6 @@
 const primary = ["guns", "diamond", "rose"];
-const secondary = ["buddha", "heart", "bird"];
-const tertiary = ["9", "10", "J", "Q", "K"];
+const secondary = ["crown", "heart", "bird"];
+const tertiary = ["nine", "ten", "jack", "queen", "king"];
 
 const calculateSymbols = (symbols, startFeature) => {
   let credits = [];
@@ -21,6 +21,7 @@ const calculateSymbols = (symbols, startFeature) => {
       }
     } else if (key === "Coin" && value >= 8) {
       isFeature = true;
+      winSymbols.push(key);
     }
   }
 

@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.container-wrapper {
+  width: 1100px;
+  height: 675px;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+.container {
+  background: #ffeb95;
+}
+.credit {
+  font-size: 2rem;
+  padding: 1rem;
+  background: #ffeb95;
+  text-align: center;
+}
+
+.credit svg {
+  width: 50px;
+  height: 50px;
+  margin-left: 0.5em;
+}
+
+.container {
+  padding: 1.1rem;
+}
+
+.coins__container {
+  display: flex;
+}
+
+.coins {
+  border: 1px solid rebeccapurple;
+  background: #ffeb95;
+  padding: 1rem;
+  width: 110px;
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+.coins__list {
+  height: 130px;
+}
+.button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+.button-spin {
+  position: relative;
+  box-shadow: inset 0px 1px 0px 0px #caefab;
+  cursor: pointer;
+  background: linear-gradient(#77d42a, #5cb811);
+  border-radius: 6px;
+  text-indent: 0;
+  border: 1px solid #268a16;
+  display: flex;
+  justify-content: center;
+  color: #306108;
+  font-family: arial;
+  font-size: 36px;
+  font-weight: bold;
+  font-style: normal;
+  height: 62px;
+  line-height: 62px;
+  width: 155px;
+  text-decoration: none;
+  text-align: center;
+  text-shadow: 0px 2px 0px #aade7c;
+}
+.button-spin:hover {
+  background: linear-gradient(#5cb811, #77d42a);
+  background-color: #5cb811;
+}
+.button-spin:active {
+  position: relative;
+  top: 1px;
+}
+
+.container--feature {
+  border: 20px solid pink;
+}
+
+.coins__list-matched {
+  background: pink;
+  height: 130px;
+}
+
+.flicker-in-1 {
+  animation: flicker-in-1 0.5s infinite;
+}
+
+.rainbow-bg {
+  animation: rainbow-bg 2.5s linear;
+  animation-iteration-count: infinite;
+  border-radius: 30px;
+}
+
+.notification {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notification .strong {
+  color: red;
+  padding: 0 0.5em;
+}
+@keyframes flicker-in-1 {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes rainbow-bg {
+  100%,
+  0% {
+    background-color: rgb(255, 0, 0);
+  }
+  8% {
+    background-color: rgb(255, 127, 0);
+  }
+  16% {
+    background-color: rgb(255, 255, 0);
+  }
+  25% {
+    background-color: rgb(127, 255, 0);
+  }
+  33% {
+    background-color: rgb(0, 255, 0);
+  }
+  41% {
+    background-color: rgb(0, 255, 127);
+  }
+  50% {
+    background-color: rgb(0, 255, 255);
+  }
+  58% {
+    background-color: rgb(0, 127, 255);
+  }
+  66% {
+    background-color: rgb(0, 0, 255);
+  }
+  75% {
+    background-color: rgb(127, 0, 255);
+  }
+  83% {
+    background-color: rgb(255, 0, 255);
+  }
+  91% {
+    background-color: rgb(255, 0, 127);
+  }
+}

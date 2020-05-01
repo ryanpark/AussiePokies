@@ -1,5 +1,5 @@
-const primary = ["guns", "diamond", "rose", "buddha", "heart", "bird"];
-const secondary = ["9", "10", "J", "Q", "K"];
+const primary = ["guns", "diamond", "rose", "crown", "heart", "bird"];
+const secondary = ["nine", "ten", "jack", "queen", "king"];
 const coins = ["Coin", "Coin", "Coin"];
 
 // Fisher-Yates algorithm

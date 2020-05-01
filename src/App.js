@@ -1,10 +1,9 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { getSymbols } from "./Symbols/symbols";
 import calculateSymbols from "./Symbols/calculateSymbols";
-import { css, jsx } from "@emotion/core";
-import CountUp from "react-countup";
+import renderIcons from "./renderIcons";
 import "./reset.css";
-import "./App.css";
+import "./styles/App.css";
 
 const App = () => {
   const [rows, setRows] = useState([]);
@@ -25,9 +24,13 @@ const App = () => {
       {}
     );
 
+    // Todo ****** awesome *****
+    // getRows();
+
     const updateSlots = calculateSymbols(results, startFeature);
     setCredit(updateSlots.totalCredits + credit);
     setWinCredit(updateSlots.totalCredits);
+
     if (startFeature) {
       setFeatureNumber(featureNumber + 1);
     }
@@ -43,6 +46,10 @@ const App = () => {
       setFeature(false);
     };
   }, [rows]);
+
+  useEffect(() => {
+    getRows();
+  }, []);
 
   useEffect(() => {
     if (feature) {
@@ -64,13 +71,19 @@ const App = () => {
     return rows.map(row => {
       return (
         <ul className="coins">
-          {row.map(list => {
-            const matched = winSymbols.includes(list);
-
+          {row.map(symbol => {
+            const matched = winSymbols.includes(symbol);
+            //console.log(symbol);
             return (
-              <li className={!matched ? "coins__list" : "coins__list-matched"}>
-                {list}
-              </li>
+              <Fragment>
+                <li
+                  className={
+                    !matched ? "coins__list" : "coins__list flicker-in-1"
+                  }
+                >
+                  {renderIcons(symbol)}
+                </li>
+              </Fragment>
             );
           })}
         </ul>
@@ -80,32 +93,62 @@ const App = () => {
 
   const DisplayResults = () => {
     const wonSymbols = winSymbols.toString();
-    return `dsiplay results ${winCredit} ${wonSymbols}`;
+    // return renderIcon;
+    console.log(winSymbols);
+    if (wonSymbols) {
+      const renderSymols = winSymbols.map(symbol => {
+        return renderIcons(symbol.toString());
+      });
+      return (
+        <Fragment>
+          <div className="notification">
+            You just Won <span className="strong"> ${winCredit}</span>
+            {wonSymbols && " with "}
+            {renderSymols}
+          </div>
+        </Fragment>
+      );
+    }
+    return `You just Won $${winCredit} ${wonSymbols &&
+      "with"} ${wonSymbols} ${wonSymbols && "s"}`;
   };
+  const freeGames = 10 - featureNumber;
   return (
     <Fragment>
-      <h1>{startFeature ? "feature time baby" : ""}</h1>
-      <div className={!startFeature ? "container" : "container--feature"}>
-        <DisplayResults />
-        <h1 className="credit">{credit}</h1>
+      <div className="container-wrapper">
+        <div className={!startFeature ? "container" : "container rainbow-bg"}>
+          <div className="credit">
+            {(!startFeature || featureNumber !== 10) && <DisplayResults />}
+            <h2>
+              {startFeature &&
+                freeGames === 10 &&
+                "WoW ! You just won free feature !"}
+            </h2>
+            {startFeature && (
+              <h3>{freeGames} free games remains - every wins is x10</h3>
+            )}
+          </div>
 
-        <CountUp start={1000} end={credit} duration={5} />
-        <div className="App">
-          <div className="coins__container">
-            <RenderRows />
+          <div className="App">
+            <div className="coins__container">
+              <RenderRows />
+            </div>
+          </div>
+          <div className="button-wrapper">
+            <div className="credit">Balance : $ {credit}</div>
+            <button
+              onClick={e => {
+                getRows();
+                setCredit(credit - 50);
+              }}
+              value="trigger me"
+              className="button-spin"
+              disabled={credit > 0 ? false : true}
+            >
+              SPIN
+            </button>
           </div>
         </div>
-        <button
-          onClick={e => {
-            getRows();
-            setCredit(credit - 50);
-          }}
-          value="trigger me"
-          className="button"
-          disabled={credit > 0 ? false : true}
-        >
-          Trigger
-        </button>
       </div>
     </Fragment>
   );

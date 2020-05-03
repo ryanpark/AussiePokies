@@ -29,17 +29,17 @@ const renderIcons = symbol => {
       return <IconBird />;
     case "Heart":
       return <IconHeart />;
-    case "Queen":
+    case "Tiger":
       return <IconTiger />;
-    case "Nine":
+    case "Dice":
       return <IconDice />;
-    case "Ten":
+    case "Bee":
       return <IconBee />;
-    case "Jack":
+    case "Key":
       return <IconKey />;
-    case "Guns":
+    case "Clover":
       return <IconClover />;
-    case "King":
+    case "Solid":
       return <IconSolid />;
     default:
       console.log("Sorry, we are out of " + iconCapitalized + ".");

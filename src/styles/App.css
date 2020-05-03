@@ -1,12 +1,26 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 .container-wrapper {
-  width: 1100px;
-  height: 675px;
   display: flex;
   justify-content: center;
   margin: 0 auto;
+}
+
+@media only screen and (max-width: 768px) {
+  .coins.coins {
+    padding: 0.5rem;
+    width: 50px;
+  }
+  .coins svg {
+    width: 55px;
+    height: 55px;
+  }
+  .notification.notification,
+  .credit.credit {
+    font-size: 1.5rem;
+  }
+
+  .coins__list.coins__list {
+    height: 60px;
+  }
 }
 .container {
   background: #ffeb95;
@@ -44,6 +58,7 @@
 .coins__list {
   height: 130px;
 }
+
 .button-wrapper {
   display: flex;
   justify-content: flex-end;

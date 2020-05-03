@@ -1,6 +1,6 @@
-const primary = ["guns", "diamond", "rose"];
+const primary = ["Clover", "diamond", "rose"];
 const secondary = ["crown", "heart", "bird"];
-const tertiary = ["nine", "ten", "jack", "queen", "king"];
+const tertiary = ["Dice", "Bee", "Key", "Tiger", "Solid"];
 
 const calculateSymbols = (symbols, startFeature) => {
   let credits = [];

@@ -4,7 +4,7 @@ import calculateSymbols from "./Symbols/calculateSymbols";
 import renderIcons from "./renderIcons";
 import "./reset.css";
 import "./styles/App.css";
-
+let counter = 0;
 const App = () => {
   const [rows, setRows] = useState([]);
   const [credit, setCredit] = useState(1000);
@@ -13,36 +13,17 @@ const App = () => {
   const [featureNumber, setFeatureNumber] = useState(0);
   const [winCredit, setWinCredit] = useState(0);
   const [winSymbols, setWinSymbols] = useState([]);
+  const [complete, setComplete] = useState(false);
 
   useEffect(() => {
-    const lists = rows.reduce((prev, next) => prev.concat(next), []);
-    const results = lists.reduce(
-      (acc, value) => ({
-        ...acc,
-        [value]: (acc[value] || 0) + 1
-      }),
-      {}
-    );
-
-    // Todo ****** awesome *****
-    // getRows();
-
-    const updateSlots = calculateSymbols(results, startFeature);
-    setCredit(updateSlots.totalCredits + credit);
-    setWinCredit(updateSlots.totalCredits);
-
-    if (startFeature) {
-      setFeatureNumber(featureNumber + 1);
-    }
-    if (updateSlots.isFeature && !startFeature) {
-      setFeature(true);
-    }
-    if (featureNumber === 10 && startFeature) {
-      setStartFeature(false);
-      setFeatureNumber(0);
-    }
-    setWinSymbols(updateSlots.winSymbols);
+    const timer = setTimeout(() => {
+      getRows();
+      if (counter < 9) {
+        return;
+      }
+    }, 80);
     return () => {
+      clearTimeout(timer);
       setFeature(false);
     };
   }, [rows]);
@@ -52,14 +33,49 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    if (complete) {
+      const lists = rows.reduce((prev, next) => prev.concat(next), []);
+      const results = lists.reduce(
+        (acc, value) => ({
+          ...acc,
+          [value]: (acc[value] || 0) + 1
+        }),
+        {}
+      );
+
+      const updateSlots = calculateSymbols(results, startFeature);
+      setCredit(updateSlots.totalCredits + credit);
+      setWinCredit(updateSlots.totalCredits);
+
+      if (startFeature) {
+        setFeatureNumber(featureNumber + 1);
+      }
+      if (updateSlots.isFeature && !startFeature) {
+        setFeature(true);
+      }
+      if (featureNumber === 10 && startFeature) {
+        setStartFeature(false);
+        setFeatureNumber(0);
+      }
+      setWinSymbols(updateSlots.winSymbols);
+    }
+  }, [complete]);
+
+  useEffect(() => {
     if (feature) {
       setStartFeature(true);
     }
   }, [feature]);
 
   function getRows() {
+    counter += 1;
+    if (counter === 10) {
+      counter = 0;
+      setComplete(true);
+      return;
+    }
     setRows([]);
-
+    setComplete(false);
     return Array(5)
       .fill([])
       .map((e, i) => {
@@ -73,7 +89,6 @@ const App = () => {
         <ul className="coins">
           {row.map(symbol => {
             const matched = winSymbols.includes(symbol);
-            //console.log(symbol);
             return (
               <Fragment>
                 <li
@@ -93,8 +108,6 @@ const App = () => {
 
   const DisplayResults = () => {
     const wonSymbols = winSymbols.toString();
-    // return renderIcon;
-    console.log(winSymbols);
     if (wonSymbols) {
       const renderSymols = winSymbols.map(symbol => {
         return renderIcons(symbol.toString());
@@ -112,7 +125,9 @@ const App = () => {
     return `You just Won $${winCredit} ${wonSymbols &&
       "with"} ${wonSymbols} ${wonSymbols && "s"}`;
   };
+
   const freeGames = 10 - featureNumber;
+
   return (
     <Fragment>
       <div className="container-wrapper">

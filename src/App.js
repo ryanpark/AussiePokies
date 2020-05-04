@@ -70,7 +70,7 @@ const App = () => {
   function getRows() {
     counter += 1;
     if (counter === 10) {
-      counter = 0;
+      counter = 1;
       setComplete(true);
       return;
     }
@@ -128,6 +128,11 @@ const App = () => {
 
   const freeGames = 10 - featureNumber;
 
+  function calculateCredits() {
+    if (startFeature) return;
+    setCredit(credit - 50);
+  }
+
   return (
     <Fragment>
       <div className="container-wrapper">
@@ -154,7 +159,7 @@ const App = () => {
             <button
               onClick={e => {
                 getRows();
-                setCredit(credit - 50);
+                calculateCredits();
               }}
               value="trigger me"
               className="button-spin"
